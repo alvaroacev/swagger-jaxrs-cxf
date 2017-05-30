@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--*******************************************************************-->
+<!--*  SWIFT owns the copyright on the source code samples provided   *-->
+<!--*  as part of Alliance Access, and grants the customer a right to *-->
+<!--*  copy, use, and adapt them for the purpose of implementing      *-->
+<!--*  integration flow using Alliance Access.                        *-->
+<!--*  SWIFT provides these source code samples for the customers     *-->
+<!--*  convenience, and without warranties as to their completeness,  *-->
+<!--*  fitness for a particular purpose, frequency of updates, ease   *-->
+<!--*  of maintenance, or absence of errors.                          *-->
+<!--*******************************************************************-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:cxf="http://camel.apache.org/schema/cxf"
+       xmlns:spring="http://camel.apache.org/schema/spring"
+       xmlns:http="http://cxf.apache.org/transports/http/configuration"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:httpj="http://cxf.apache.org/transports/http-jetty/configuration"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+            http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+            http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+            http://cxf.apache.org/transports/http-jetty/configuration http://cxf.apache.org/schemas/configuration/http-jetty.xsd
+            http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+    		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
+
+
+<!--     <import resource="classpath:META-INF/cxf/cxf.xml"/> -->
+
+    <!-- Defined the server endpoint to create the cxf-rs consumer -->
+	<cxf:rsServer id="rsServer" address="http://0.0.0.0:9090/v1"
+		  serviceClass="com.io.swagger.api.impl.ScreenmessageApiServiceImpl"/>
+	
+	<!-- Beans used to retrieve WS request and to build WS responses -->
+	<bean id="generateResponse" class="com.io.swagger.api.impl.ResponseScreenMessage"/>
+
+	<!-- Throws an exception if the WS operation is not putCsv or getAck -->
+	<bean id="invalidOperationException" class="java.lang.IllegalArgumentException">
+   		<constructor-arg index="0" value="Only operations 'screenmessage' are supported in this flow"/>
+	</bean>	
+	
+	
+    <camelContext id="swagger-jaxrs" xmlns="http://camel.apache.org/schema/spring">
+		
+		<!-- The following route will route the WS request depending on the operation that the user called. -->
+		<!-- If the operation is incorrect, an exception is thrown. -->
+		<route id="Read_Input_REST">
+			<from uri="cxfrs:bean:rsServer"/>
+			<choice>
+				<when>
+					<simple>${header.operationName} == 'screenmessage'</simple>
+					<to uri="direct:screenmessage"/>
+				</when>
+				<otherwise>
+					<throwException ref="invalidOperationException"/>
+				</otherwise>			
+			</choice>
+		</route>
+
+		<!-- The following route gets a record from REST web service and store its content -->
+        <!-- as a message instance in a queue of Alliance Access. -->
+		<route id="Screen_Message">
+			<from uri="direct:screenmessage"/>
+			<log message="*** body: [${body}])" />          
+            <bean ref="generateResponse"/>
+        </route>
+        
+    </camelContext>
+</beans>

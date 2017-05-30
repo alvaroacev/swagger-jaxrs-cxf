@@ -1,4 +1,4 @@
-package io.swagger.model;
+package com.io.swagger.model;
 
 import io.swagger.annotations.ApiModelProperty;
 

@@ -1,0 +1,27 @@
+Bundle-Name: ${component.name}
+Bundle-SymbolicName: ${component.symbolicname}
+Bundle-Version: ${component.version}
+Bundle-Vendor: ${component.vendor}
+IplasaComponentModel: ${component.iplasacomponentmodel}
+
+Private-Package: *                    
+                                        
+# This is the basic imports to use IPLA.
+Import-Package: org.apache.camel.component.properties, \
+                org.springframework.beans.factory.config, \
+                org.slf4j.*, \
+                javax.ws.rs.*, \
+                javax.activation.*, \
+                org.slf4j.*, \
+                org.apache.camel.*, \
+                *
+
+# This is required for CXF
+DynamicImport-Package: org.apache.cxf.*, META-INF.cxf
+
+
+# Automatically find package dependencies from Spring files
+-plugin: aQute.lib.spring.SpringComponent
+
+# Cleanup the generated manifest
+-removeheaders: Private-Package, Ignore-Package, Include-Resource, DSTAMP, Originally-Created-By, Created-By, TODAY, Tool, TSTAMP

@@ -23,7 +23,7 @@
  */
 
 
-package io.swagger.api;
+package com.io.swagger.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.Before;
 import org.junit.Test;
 
-import io.swagger.model.CanonicalScreenMessage;
+import com.io.swagger.model.CanonicalScreenMessage;
 
 
 

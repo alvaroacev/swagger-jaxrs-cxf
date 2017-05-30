@@ -1,13 +1,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>io.swagger</groupId>
+  <groupId>com.io.swagger</groupId>
   <artifactId>swagger-cxf-server</artifactId>
-  <packaging>war</packaging>
+  <packaging>bundle</packaging>
   <name>swagger-cxf-server</name>
   <version>1.0.0</version>
   <build>
     <sourceDirectory>src/main/java</sourceDirectory>
+    
+    <resources>
+      <resource>
+        <directory>src/main/java/META-INF/spring</directory>
+        <includes>
+          <include>**/*.xml</include>
+        </includes>
+      </resource>
+    </resources>
     <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>filter</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>resources</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <artifactId>maven-failsafe-plugin</artifactId>
         <version>2.6</version>
@@ -76,15 +99,16 @@
           </execution>
         </executions>
       </plugin>
-      
-      <!-- build WAR file -->
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.1.1</version>
+    <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
         <configuration>
-           <failOnMissingWebXml>false</failOnMissingWebXml>
+          <instructions>
+            <Import-Package>*</Import-Package>
+	          </instructions>
         </configuration>
-    </plugin>
+      </plugin>
     </plugins>
   </build>
   <dependencies>
@@ -158,6 +182,19 @@
         <version>${cxf-version}</version>
         <scope>compile</scope>
     </dependency>
+    <dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-core</artifactId>
+    	<version>2.17.0</version>
+    </dependency>
+    
+    <dependency>
+    	<groupId>javax.ws.rs</groupId>
+    	<artifactId>javax.ws.rs-api</artifactId>
+    	<version>2.0-m10</version>
+    </dependency>
+    
+    
   </dependencies>
   <repositories>
     <repository>
