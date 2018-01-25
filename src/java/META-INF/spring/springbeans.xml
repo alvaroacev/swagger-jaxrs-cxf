@@ -1,14 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--*******************************************************************-->
-<!--*  SWIFT owns the copyright on the source code samples provided   *-->
-<!--*  as part of Alliance Access, and grants the customer a right to *-->
-<!--*  copy, use, and adapt them for the purpose of implementing      *-->
-<!--*  integration flow using Alliance Access.                        *-->
-<!--*  SWIFT provides these source code samples for the customers     *-->
-<!--*  convenience, and without warranties as to their completeness,  *-->
-<!--*  fitness for a particular purpose, frequency of updates, ease   *-->
-<!--*  of maintenance, or absence of errors.                          *-->
-<!--*******************************************************************-->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:cxf="http://camel.apache.org/schema/cxf"
