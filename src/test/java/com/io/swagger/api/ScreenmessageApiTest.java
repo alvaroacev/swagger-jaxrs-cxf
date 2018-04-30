@@ -22,7 +22,6 @@
  * limitations under the License.
  */
 
-
 package com.io.swagger.api;
 
 import java.util.ArrayList;
@@ -34,48 +33,43 @@ import org.apache.cxf.jaxrs.client.WebClient;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
 import com.io.swagger.model.CanonicalScreenMessage;
-
-
-
 
 /**
  * API tests for ScreenmessageApi
  */
 public class ScreenmessageApiTest {
 
+	private ScreenmessageApi api;
 
-    private ScreenmessageApi api;
-    
-    @Before
-    public void setup() {
-//        JacksonJsonProvider provider = new JacksonJsonProvider();
-        List providers = new ArrayList();
-//        providers.add(provider);
-        
-        api = JAXRSClientFactory.create("http://sil.hostname/v1", ScreenmessageApi.class, providers);
-        org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
-        
-        ClientConfiguration config = WebClient.getConfig(client); 
-    }
+	@Before
+	public void setup() {
+		JacksonJsonProvider provider = new JacksonJsonProvider();
+		List<JacksonJsonProvider> providers = new ArrayList<>();
+		providers.add(provider);
 
-    
-    /**
-     *  a XML canonical message in the body containing the message to screened
-     *
-     * This can only be done by the logged in user.
-     *
-     * @throws ApiException
-     *          if the Api call fails
-     */
-    @Test
-    public void screenmessageTest() {
-        CanonicalScreenMessage body = null;
-	//api.screenmessage(body);
-        
-        // TODO: test validations
-        
-        
-    }
-    
+		api = JAXRSClientFactory.create("http://localhost:9090/v1", ScreenmessageApi.class, providers);
+		org.apache.cxf.jaxrs.client.Client client = WebClient.client(api);
+
+		ClientConfiguration config = WebClient.getConfig(client);
+	}
+
+	/**
+	 * a XML canonical message in the body containing the message to screened
+	 *
+	 * This can only be done by the logged in user.
+	 *
+	 * @throws ApiException
+	 *             if the Api call fails
+	 */
+	@Test
+	public void screenmessageTest() {
+		String body = null;
+		api.screenmessage(body);
+
+		// TODO: test validations
+
+	}
+
 }

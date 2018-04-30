@@ -15,8 +15,6 @@
     		http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd">
 
 
-<!--     <import resource="classpath:META-INF/cxf/cxf.xml"/> -->
-
     <!-- Defined the server endpoint to create the cxf-rs consumer -->
 	<cxf:rsServer id="rsServer" address="http://0.0.0.0:9090/v1"
 		  serviceClass="com.io.swagger.api.impl.ScreenmessageApiServiceImpl"/>
@@ -51,7 +49,8 @@
         <!-- as a message instance in a queue of Alliance Access. -->
 		<route id="Screen_Message">
 			<from uri="direct:screenmessage"/>
-			<log message="*** body: [${body}])" />          
+			<log message="\n*** body: [${body}])" />          
+			<log message="\n*** headers: [${headers}])" />          
             <bean ref="generateResponse"/>
         </route>
         

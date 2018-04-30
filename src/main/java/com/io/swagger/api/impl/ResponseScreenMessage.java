@@ -12,7 +12,7 @@ public class ResponseScreenMessage implements Processor {
 		String outputFormat = null;
 		Response response = null;
 
-		response = Response.ok().type(outputFormat).build();
+		response = Response.ok("SUCCESS").type(outputFormat).build();
 
 		exchange.getOut().setBody(response);
 

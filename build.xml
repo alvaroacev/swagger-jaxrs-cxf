@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="swagger-jaxrs-cxf" basedir="." default="dist">
-	<property environment="env"/>
-    <import file="${env.IPLA_SDK_1_6_0_HOME}/ipla-sdk/tools/build-component.xml"/>
-    <path id="dependencies.library">
-    	<fileset dir="${component.home}/lib" includes="*.jar"/>
-    </path>
-</project>
