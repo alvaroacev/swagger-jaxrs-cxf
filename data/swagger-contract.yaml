@@ -1,0 +1,76 @@
+swagger: "2.0"
+info:
+  description: "The purpose of this specification is to provide and example to depoy in Jboss Fuse"
+  version: "1.0.3"
+  title: "RESTful API"
+host: "localhost"
+basePath: "/v1"
+tags:
+- name: "screenmessage"
+  description: "Receives a XML message in the body
+containing the message to processed"
+schemes:
+- "https"
+paths:
+  /screenmessage:
+    post:
+      tags:
+      - "screenmessage"
+      summary: " a XML canonical message in the body containing the
+message to screen"
+      description: "This can only be done by the logged in user."
+      operationId: "screenmessage"
+      consumes:
+      - "application/xml"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "XML Canonical message"
+        required: true
+        schema:
+          $ref: "#/definitions/CanonicalScreenMessage"
+      responses:
+        200:
+          description: "Valid request sent to Sanctions"
+        400:
+          description: "Invalid Message supplied"
+        404:
+          description: "URI not found"
+        405:
+          description: "Validation exception"
+definitions:
+  CanonicalScreenMessage:
+    type: "object"
+    properties:
+      businessMessageId:
+        type: "string"
+        description: "Unique message identifer, this is unique for all messages to be sent"
+        maxLength: 30       
+      creationDate:
+        type: "string"
+        format: date
+      senderBIC8:
+        type: "string"
+        pattern: "[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}"
+      receiverBIC8:
+        type: "string"
+        pattern: "[A-Z]{6,6}[A-Z2-9][A-NP-Z0-9]([A-Z0-9]{3,3}){0,1}"
+      screening_info:
+        type: "array"
+        minItems: 1        
+        items:
+          $ref: "#/definitions/screening_info"
+    xml:
+      name: "ScreenMessage"
+  screening_info:
+    type: "object"
+    properties:
+      label:
+        type: "string"
+        pattern: "[a-zA-Z0-9]{1,10}"
+      data:
+        type: "string"
+        minLength: 1
+        maxLength: 30
+    xml:
+      name: "screening_info"
